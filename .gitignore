@@ -1,0 +1,26 @@
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+
+# Local config and data
+.env
+.env.*
+!.env.example
+data/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# Editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Tooling
+.vite/
+*.tsbuildinfo
+playwright-report/
+test-results/

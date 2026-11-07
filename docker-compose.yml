@@ -1,0 +1,66 @@
+# ArbiterAI local stack: Postgres + the app (API + SPA) on http://localhost:8080
+#   make docker-up      (or: docker compose up -d --build)
+# Credentials are read from ./.env (create it with `make env`).
+
+name: arbiterai
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: arbiter
+      POSTGRES_PASSWORD: arbiter
+      POSTGRES_DB: arbiter
+    # Not published to the host (avoids clashing with a local Postgres).
+    # To inspect it: docker compose exec db psql -U arbiter
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U arbiter -d arbiter']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      NODE_ENV: production
+      SERVE_WEB: 'true'
+      PORT: '8080'
+      DATABASE_URL: postgres://arbiter:arbiter@db:5432/arbiter
+      DATABASE_SSL: 'false'
+      PUBLIC_WEB_URL: ${DOCKER_PUBLIC_WEB_URL:-http://localhost:8080}
+      CORS_ORIGINS: http://localhost:8080
+    ports:
+      - '8080:8080'
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Single-container alternative without Postgres: `make docker-sqlite`
+  app-sqlite:
+    build: .
+    profiles: ['sqlite']
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      NODE_ENV: production
+      SERVE_WEB: 'true'
+      DATABASE_URL: ''
+      SQLITE_PATH: /app/data/arbiter.sqlite
+      PUBLIC_WEB_URL: ${DOCKER_PUBLIC_WEB_URL:-http://localhost:8080}
+      CORS_ORIGINS: http://localhost:8080
+    ports:
+      - '8080:8080'
+    volumes:
+      - sqlitedata:/app/data
+
+volumes:
+  pgdata:
+  sqlitedata:

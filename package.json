@@ -1,0 +1,39 @@
+{
+  "name": "arbiterai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ArbiterAI — autonomous cross-border milestone escrow with AI verification and PayPal payouts (sandbox escrow simulation).",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "shared",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c cyan,magenta \"npm run dev -w @arbiter/backend\" \"npm run dev -w @arbiter/frontend\"",
+    "dev:backend": "npm run dev -w @arbiter/backend",
+    "dev:frontend": "npm run dev -w @arbiter/frontend",
+    "build": "npm run build -w @arbiter/frontend && npm run build -w @arbiter/backend",
+    "start": "npm run start -w @arbiter/backend",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "test": "npm run test --workspaces --if-present",
+    "format": "prettier --write .",
+    "db:reset": "npm run db:reset -w @arbiter/backend",
+    "seed:demo": "npm run seed:demo -w @arbiter/backend"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "concurrently": "^10.0.6",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "prettier": "^3.9.10",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.72.1"
+  }
+}
