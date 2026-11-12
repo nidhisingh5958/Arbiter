@@ -104,7 +104,7 @@ All keys go in the root `.env`. Each integration falls back to its mock, with a 
 
 ### Groq (LLM)
 
-Create a key at https://console.groq.com → **API Keys**. Set `LLM_MODE=groq`, `GROQ_API_KEY=…` and optionally `GROQ_MODEL` (default `llama-3.3-70b-versatile`; any Groq chat model with JSON mode and tool calling works).
+Create a key at https://console.groq.com → **API Keys**. Set `LLM_MODE=groq`, `GROQ_API_KEY=…` and optionally `GROQ_MODEL` (default `openai/gpt-oss-120b`; any Groq chat model with JSON mode and tool calling works — check [console.groq.com/docs/models](https://console.groq.com/docs/models) since Groq periodically deprecates older models).
 
 ### GitHub
 

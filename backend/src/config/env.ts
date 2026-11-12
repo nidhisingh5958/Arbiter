@@ -178,7 +178,7 @@ export function buildConfig(env: Env = process.env): AppConfig {
     llm: {
       mode: llmMode,
       apiKey: groqKey,
-      model: str(env, 'GROQ_MODEL') ?? 'llama-3.3-70b-versatile',
+      model: str(env, 'GROQ_MODEL') ?? 'openai/gpt-oss-120b',
       baseUrl: (str(env, 'GROQ_BASE_URL') ?? 'https://api.groq.com/openai/v1').replace(/\/+$/, ''),
       timeoutMs: num(env, 'LLM_TIMEOUT_MS', 30_000),
       maxRetries: num(env, 'LLM_MAX_RETRIES', 2),
